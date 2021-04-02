@@ -24,27 +24,40 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              Profile
+              {% if user.is_authenticated %} {{ user.first_name }} {% else %} Profil {% endif %}  
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Sync</a></li>
-              <li><a class="dropdown-item" href="#">Tags</a></li>
+              {% if user.is_authenticated %}
+              <li><a class="dropdown-item" href="#">Tagi</a></li>
+              <li><a class="dropdown-item" href="#">Synchronizacja</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a></li>
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'login' %}">Logowanie</a></li>
+              <li><a class="dropdown-item" href="{% url 'register' %}">Rejestracja</a></li>
+              {% endif %}
             </ul>
           </li>
         </ul>
+        {% block form %}
         <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-warning" type="submit">Search</button>
+          <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search">
+          <button class="btn btn-outline-warning" type="submit">Szukaj</button>
         </form>
+        {% endblock %}
       </div>
     </div>
   </nav>
   {% block content %}
-  <h3 class="text-center">Your Movies</h3>
+  <h3 class="text-center">
+  {% if user.is_authenticated %} 
+  Twoje filmy 
+  {% else %} 
+  Tu pojawi się Twoja lista filmów
+  {% endif %} 
+  </h3>
   <table class="table table-dark table-hover">
     <thead>
       <tr>
