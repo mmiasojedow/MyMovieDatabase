@@ -24,12 +24,12 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              {% if user.is_authenticated %} {{ user.first_name }} {% else %} Profil {% endif %}  
+              {% if user.is_authenticated %} {{ user.first_name }} {% else %} Profil {% endif %}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               {% if user.is_authenticated %}
               <li><a class="dropdown-item" href="#">Tagi</a></li>
-              <li><a class="dropdown-item" href="#">Synchronizacja</a></li>
+              <li><a class="dropdown-item" href="{% url 'sync' %}">Synchronizacja</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -51,37 +51,31 @@
     </div>
   </nav>
   {% block content %}
-  <h3 class="text-center">
-  {% if user.is_authenticated %} 
-  Twoje filmy 
-  {% else %} 
-  Tu pojawi się Twoja lista filmów
-  {% endif %} 
-  </h3>
+  {% if user.is_authenticated %}
+  <h3 class="text-center">Twoje filmy</h3>
   <table class="table table-dark table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Movie</th>
-        <th scope="col">Rating</th>
-        <th scope="col">Tags</th>
+        <th scope="col">Film</th>
+        <th scope="col">Ocena</th>
+        <th scope="col">Tagi</th>
       </tr>
     </thead>
     <tbody>
+      {% for movie in movies  %}
       <tr>
-        <th scope="row">1</th>
-        <td><a href='/'>Forest Gump</a></td>
-        <td>10</td>
-        <td>#great #hanks</td>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href='/'>{{ movie.title }}</a></td>
+        <td>{{ movie.rating }}</td>
+        <td>{% for tag in movie.tags.all %} {{tag.name}} {% endfor %}</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Django</td>
-        <td>8</td>
-        <td>#trantino #wildwest</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <h3 class="text-center">Tu pojawi się Twoja lista filmów</h3>
+  {% endif %}
   {% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
     integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
@@ -89,7 +83,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
     integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
     crossorigin="anonymous"></script>
-    
+
 </body>
 
 </html>
