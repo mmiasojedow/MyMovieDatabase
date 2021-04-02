@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main_app.views import MainView
+from main_app.views import MainView, SyncView
 from user_app.views import RegisterView, LoginView, LogoutView
 
 urlpatterns = [
@@ -25,4 +25,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
+    path('sync/', SyncView.as_view(), name='sync'),
 ]

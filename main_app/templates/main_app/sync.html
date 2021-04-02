@@ -1,0 +1,17 @@
+{% extends 'main_app/base.html' %}
+{% block title %}Synchronizacja{% endblock %}
+{% block form %}{% endblock %}
+{% block content %}
+<h3 class="text-center">Synchronizacja</h3>
+
+<div class='text-center m-lg-5'>
+    <form method="post">
+        {% csrf_token %}
+        <p> Twoje filmy: </p>
+        {{ movies }}
+        <div class="form-group p-4">
+            <button type="submit" class="btn btn-outline-warning">Synchronizuj</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
