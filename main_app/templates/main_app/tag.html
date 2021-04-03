@@ -1,5 +1,6 @@
 {% extends 'main_app/base.html' %}
 {% block title %}Tagi{% endblock %}
+{% block form %}{% endblock%}
 {% block content %}
 <h3 class="text-center">Tagi</h3>
 
@@ -8,7 +9,7 @@
     <p>{{ tag.name }} <a href="{% url 'tag_delete' tag.pk %}">[X]</a></p>
     {% endfor %}
 
-    <form method=" post">
+    <form method="post">
         {% csrf_token %}
         <div class="form-group p-4">
             {{form.name}}

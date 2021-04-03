@@ -8,8 +8,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from main_app.models import Movie, Tag
-from main_app.scraper import *
-from main_app.forms import MovieNoteForm, TagForm
+from main_app.scraper import get_all_movies, get_new_movies
+from main_app.forms import MovieNoteForm, TagForm, SearchForm
 
 User = get_user_model()
 
@@ -17,11 +17,33 @@ User = get_user_model()
 class MainView(View):
     def get(self, request):
         user = request.user
+        status = 'Twoje filmy'
         if user.is_anonymous:
             return render(request, 'main_app/base.html')
         else:
+            form = SearchForm()
             movies = Movie.objects.filter(user=user)
-            return render(request, 'main_app/base.html', {'movies': movies})
+            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
+
+    def post(self, request):
+        user = request.user
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            status = 'Wyniki wyszukiwania'
+            name = form.cleaned_data['name']
+            if name.startswith('#'):
+                try:
+                    tag = Tag.objects.get(user=user, name__icontains=name)
+                    movies = Movie.objects.filter(user=user, tags=tag)
+                except:
+                    movies = []
+                    status = 'Nie masz takiego tagu'
+            else:
+                movies = Movie.objects.filter(user=user, title__icontains=name)
+            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
+        else:
+            status = 'Twoje filmy'
+            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
 
 
 class SyncView(LoginRequiredMixin, View):

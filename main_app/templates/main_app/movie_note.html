@@ -1,14 +1,14 @@
 {% extends 'main_app/base.html' %}
 {% block title %}{{ movie.title }}{% endblock %}
+{% block form %}{% endblock %}
 {% block content %}
-<h3 class="text-center"><a href='{{movie.link}}' target="_blank">{{ movie.title }}</a></h3>
+<h3 class="text-center">{{ movie.title }}</h3>
 
-<div class=' text-center m-lg-5'>
+<div class='text-center m-lg-5'>
     <p>Ocena: {{movie.rating}}</p>
-    <p><a href="{% url 'movie_tag' movie.pk %}">Tagi:</a> {% for tag in movie.tags.all %} {{tag.name}} {% endfor %}
+    <p>Tagi: {% for tag in movie.tags.all %} {{tag.name}} {% endfor %}
     </p>
-    <p><a href="{% url 'movie_note' movie.pk %}">Notatka:</a>
-        {% if movie.note %}{{ movie.note }}{% else %}Brak{% endif %}</p>
+    <p>Notatka: {% if movie.note %}{{ movie.note }}{% else %}Brak{% endif %}</p>
 
 
     <form method="post">

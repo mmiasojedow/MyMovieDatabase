@@ -42,17 +42,21 @@
           </li>
         </ul>
         {% if user.is_authenticated %}
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search">
+        {% block form %}
+        <form class="d-flex" method="post">
+          {% csrf_token %}
+          <!-- <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search"> -->
+          {{ form.name }}
           <button class="btn btn-outline-warning" type="submit">Szukaj</button>
         </form>
+        {% endblock %}
         {% endif %}
       </div>
     </div>
   </nav>
   {% block content %}
   {% if user.is_authenticated %}
-  <h3 class="text-center">Twoje filmy</h3>
+  <h3 class="text-center">{{ status }}</h3>
   <table class="table table-dark table-hover">
     <thead>
       <tr>
