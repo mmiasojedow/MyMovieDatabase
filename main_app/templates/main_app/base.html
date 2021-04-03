@@ -28,7 +28,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               {% if user.is_authenticated %}
-              <li><a class="dropdown-item" href="#">Tagi</a></li>
+              <li><a class="dropdown-item" href="{% url 'tag' %}">Tagi</a></li>
               <li><a class="dropdown-item" href="{% url 'sync' %}">Synchronizacja</a></li>
               <li>
                 <hr class="dropdown-divider">
@@ -41,12 +41,12 @@
             </ul>
           </li>
         </ul>
-        {% block form %}
+        {% if user.is_authenticated %}
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search">
           <button class="btn btn-outline-warning" type="submit">Szukaj</button>
         </form>
-        {% endblock %}
+        {% endif %}
       </div>
     </div>
   </nav>
@@ -66,7 +66,7 @@
       {% for movie in movies  %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td><a href='/'>{{ movie.title }}</a></td>
+        <td><a href="{% url 'movie' movie.pk %}">{{ movie.title }}</a></td>
         <td>{{ movie.rating }}</td>
         <td>{% for tag in movie.tags.all %} {{tag.name}} {% endfor %}</td>
       </tr>

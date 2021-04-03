@@ -1,0 +1,21 @@
+{% extends 'main_app/base.html' %}
+{% block title %}Tagi{% endblock %}
+{% block content %}
+<h3 class="text-center">Tagi</h3>
+
+<div class='text-center m-lg-5'>
+    {% for tag in tags %}
+    <p>{{ tag.name }} <a href="{% url 'tag_delete' tag.pk %}">[X]</a></p>
+    {% endfor %}
+
+    <form method=" post">
+        {% csrf_token %}
+        <div class="form-group p-4">
+            {{form.name}}
+        </div>
+        <div class="text-center form-group p-4">
+            <button type="submit" class="btn btn-outline-warning">Dodaj tag</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'main_app/base.html' %}
+{% block title %}Usuń tag{% endblock %}
+{% block content %}
+<h3 class="text-center">Tagi</h3>
+
+<div class='text-center m-lg-5'>
+    <p>Czy na pewno chcesz usunąć tag {{ tag.name }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="text-center form-group p-4">
+            <button type="submit" class="btn btn-outline-warning">Usuń</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
