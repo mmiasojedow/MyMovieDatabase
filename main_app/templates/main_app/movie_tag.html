@@ -1,5 +1,6 @@
 {% extends 'main_app/base.html' %}
 {% block title %}{{ movie.title }}{% endblock %}
+{% block form %}{% endblock %}
 {% block content %}
 <h3 class="text-center"><a href='{{movie.link}}' target="_blank">{{ movie.title }}</a></h3>
 
@@ -17,7 +18,7 @@
         </div>
         {% endfor %}
         <div class="form-group p-4">
-            <button type="submit" class="btn btn-outline-warning">Edytuj tagi</button>
+            <button type="submit" class="btn btn-outline-warning">Aktualizuj tagi</button>
         </div>
         <div class="form-group p-2">
             <a href="{% url 'movie' movie.pk %}"> <button class="btn btn-outline-warning">Wróć do filmu</button></a>

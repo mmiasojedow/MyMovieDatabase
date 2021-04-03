@@ -18,3 +18,8 @@ class TagForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nazwa', 'class': "form-control"}),
         }
+
+
+class SearchForm(forms.Form):
+    name = forms.CharField(max_length=128, widget=forms.TextInput(
+        attrs={'placeholder': 'Film/Tag', 'class': 'form-control me-2'}))
