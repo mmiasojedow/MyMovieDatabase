@@ -1,13 +1,11 @@
 from django.conf import settings
 from django.db import models
 
-# Create your models here.
-
 
 class Movie(models.Model):
     title = models.CharField(max_length=128)
     rating = models.IntegerField()
-    link = models.URLField(max_length=200, unique=True)
+    link = models.URLField(max_length=200)
     note = models.TextField(null=True, blank=True)
     tags = models.ManyToManyField('Tag')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -22,8 +22,9 @@ def get_movies(soup, user):
         link = "https://www.imdb.com" + \
             movie.find(
                 "h3", attrs={"class": "lister-item-header"}).find("a")["href"]
-        Movie.objects.create(title=title, rating=rating,
-                             link=link, user_id=user.id)
+        if Movie.objects.filter(title=title, user=user).count() == 0:
+            Movie.objects.create(title=title, rating=rating,
+                                 link=link, user_id=user.id)
 
 
 def get_next_url(soup):

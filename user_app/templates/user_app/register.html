@@ -1,32 +1,31 @@
 {% extends 'main_app/base.html' %}
 {% block title %}Rejestracja{% endblock %}
-{% block form %}{% endblock %}
 {% block content %}
 <h3 class="text-center">Zarejestruj się</h3>
 
 <div class='text-center m-lg-5'>
-<form method="post">
-{% csrf_token %}
-    <div class="form-group p-4">
-        {{ form.first_name }}
-    </div>
-    <div class="form-group p-4">
-        {{ form.email.errors}}
-        {{ form.email }}
-    </div>
-    <div class="form-group p-4">
-        {{ form.imdb_link }}
-    </div>
-    <div class="form-group p-4">
-        {{ form.non_field_errors }}
-        {{ form.password }}
-    </div>
-    <div class="form-group p-4">
-        {{ form.password2 }}
-    </div>
-    <div class="form-group p-4">
-        <button type="submit" class="btn btn-outline-warning">Załóż konto</button>
-    </div>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group p-4">
+            {{ form.first_name }}
+        </div>
+        <div class="form-group p-4">
+            {{ form.email.errors}}
+            {{ form.email }}
+        </div>
+        <div class="form-group p-4">
+            {{ form.imdb_link }}
+        </div>
+        <div class="form-group p-4">
+            {{ form.non_field_errors }}
+            {{ form.password }}
+        </div>
+        <div class="form-group p-4">
+            {{ form.password2 }}
+        </div>
+        <div class="form-group p-4">
+            <button type="submit" class="btn btn-outline-warning">Załóż konto</button>
+        </div>
+    </form>
 </div>
 {% endblock %}

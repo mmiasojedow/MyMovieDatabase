@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main_app.views import MainView, SyncView
+from main_app.views import MainView, SyncView, MovieDetailView, MovieTagView, MovieNoteView, TagView, TagDeleteView
 from user_app.views import RegisterView, LoginView, LogoutView
 
 urlpatterns = [
@@ -26,4 +26,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('sync/', SyncView.as_view(), name='sync'),
+    path('movie/<int:pk>/', MovieDetailView.as_view(), name='movie'),
+    path('movie-tags/<int:pk>/', MovieTagView.as_view(), name='movie_tags'),
+    path('movie-note/<int:pk>/', MovieNoteView.as_view(), name='movie_note'),
+    path('tag/', TagView.as_view(), name='tag'),
+    path('tag/<pk>/delete/', TagDeleteView.as_view(), name='tag_delete'),
+
 ]
