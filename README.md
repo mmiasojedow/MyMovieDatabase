@@ -1,9 +1,9 @@
 # My Movie Database
-Project for extending the list of watched movies by adding tags and notes to them.
+Project for adding tags and notes to the list of watched movies.
 
 ## Features
 The application allows user to:
-* Import movies from user IMDb reated list.
+* Import movies from user IMDb rated list.
 * Add tags and notes to movies.
 * Search list by movie title or tag.
 
@@ -14,4 +14,4 @@ The application allows user to:
 * Bootstrap 5
 
 ## Status
-In progess
+In progress
