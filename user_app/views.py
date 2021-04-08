@@ -1,11 +1,9 @@
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
 
-from user_app.forms import RegisterForm, LoginForm
+from user_app.forms import LoginForm, RegisterForm
 
 User = get_user_model()
 

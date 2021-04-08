@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
-
 User = get_user_model()
 
 
