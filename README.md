@@ -1,5 +1,5 @@
 # My Movie Database
-Project for expanding the list of watched movies by adding tags and notes to them.
+Project for extending the list of watched movies by adding tags and notes to them.
 
 ## Features
 The application allows user to:
