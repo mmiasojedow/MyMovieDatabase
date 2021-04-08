@@ -1,15 +1,15 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views import View
-from django.urls import reverse_lazy
-from django.views.generic.edit import DeleteView
 import requests
 from bs4 import BeautifulSoup
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic.edit import DeleteView
 
+from main_app.forms import MovieNoteForm, SearchForm, TagForm
 from main_app.models import Movie, Tag
 from main_app.scraper import get_all_movies, get_new_movies
-from main_app.forms import MovieNoteForm, TagForm, SearchForm
 
 User = get_user_model()
 
