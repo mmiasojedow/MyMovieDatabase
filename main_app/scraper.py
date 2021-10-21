@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
-from main_app.models import Movie
 from django.contrib.auth import get_user_model
+
+from main_app.models import Movie
 
 User = get_user_model()
 
