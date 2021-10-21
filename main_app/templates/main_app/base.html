@@ -45,7 +45,6 @@
         {% block form %}
         <form class="d-flex" method="post">
           {% csrf_token %}
-          <!-- <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search"> -->
           {{ form.name }}
           <button class="btn btn-outline-warning" type="submit">Szukaj</button>
         </form>
@@ -67,7 +66,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for movie in movies  %}
+      {% for movie in page_object  %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="{% url 'movie' movie.pk %}">{{ movie.title }}</a></td>
@@ -77,6 +76,24 @@
       {% endfor %}
     </tbody>
   </table>
+  {% if page_object %}
+  <div class="text-center">
+    <span class="step-links center">
+      {% if page_object.has_previous %}
+      <a class="btn btn-outline-warning" href="?page={{ page_object.previous_page_number }}">&larr;</a>
+      {% endif %}
+
+      <span>
+        {{ page_object.number }} z {{ page_object.paginator.num_pages }}
+      </span>
+
+      {% if page_object.has_next %}
+      <a class="btn btn-outline-warning" href="?page={{ page_object.next_page_number }}">&rarr;</a>
+      {% endif %}
+    </span>
+  </div>
+  {% else %}
+  {% endif %}
   {% else %}
   <h3 class="text-center">Tu pojawi się Twoja lista filmów</h3>
   {% endif %}

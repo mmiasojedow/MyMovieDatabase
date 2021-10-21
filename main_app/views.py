@@ -6,6 +6,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import DeleteView
+from django.core.paginator import Paginator
+
 
 from main_app.forms import MovieNoteForm, SearchForm, TagForm
 from main_app.models import Movie, Tag
@@ -23,7 +25,10 @@ class MainView(View):
         else:
             form = SearchForm()
             movies = Movie.objects.filter(user=user)
-            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
+            paginator = Paginator(movies, 10)
+            page_number = request.GET.get('page')
+            page_object = paginator.get_page(page_number)
+            return render(request, 'main_app/base.html', {'page_object': page_object, 'form': form, 'status': status})
 
     def post(self, request):
         user = request.user
@@ -42,7 +47,8 @@ class MainView(View):
                 movies = Movie.objects.filter(user=user, title__icontains=name)
             return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
         else:
-            status = 'Twoje filmy'
+            status = 'Niepoprawne wyszukiwanie'
+            movies = []
             return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
 
 
