@@ -43,9 +43,9 @@
         </ul>
         {% if user.is_authenticated %}
         {% block form %}
-        <form class="d-flex" method="post">
-          {% csrf_token %}
-          {{ form.name }}
+        <form class="d-flex" method="get">
+          <input type="text" name="search" placeholder="Film/Tag" class="form-control me-2" maxlength="128" required=""
+            id="id_name">
           <button class="btn btn-outline-warning" type="submit">Szukaj</button>
         </form>
         {% endblock %}
@@ -66,7 +66,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for movie in page_object  %}
+      {% for movie in page  %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="{% url 'movie' movie.pk %}">{{ movie.title }}</a></td>
@@ -76,19 +76,27 @@
       {% endfor %}
     </tbody>
   </table>
-  {% if page_object %}
+  {% if page %}
   <div class="text-center">
     <span class="step-links center">
-      {% if page_object.has_previous %}
-      <a class="btn btn-outline-warning" href="?page={{ page_object.previous_page_number }}">&larr;</a>
+      {% if page.has_previous %}
+      {% if search %}
+      <a class="btn btn-outline-warning" href="?page={{ page.previous_page_number }}&search={{ search }}">&larr;</a>
+      {% else %}
+      <a class="btn btn-outline-warning" href="?page={{ page.previous_page_number }}">&larr;</a>
+      {% endif %}
       {% endif %}
 
       <span>
-        {{ page_object.number }} z {{ page_object.paginator.num_pages }}
+        {{ page.number }} z {{ page.paginator.num_pages }}
       </span>
 
-      {% if page_object.has_next %}
-      <a class="btn btn-outline-warning" href="?page={{ page_object.next_page_number }}">&rarr;</a>
+      {% if page.has_next %}
+      {% if search %}
+      <a class="btn btn-outline-warning" href="?page={{ page.next_page_number }}&search={{ search }}">&rarr;</a>
+      {% else %}
+      <a class="btn btn-outline-warning" href="?page={{ page.next_page_number }}">&rarr;</a>
+      {% endif %}
       {% endif %}
     </span>
   </div>

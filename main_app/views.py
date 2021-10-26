@@ -1,5 +1,3 @@
-import requests
-from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
@@ -9,7 +7,7 @@ from django.views.generic.edit import DeleteView
 from django.core.paginator import Paginator
 
 
-from main_app.forms import MovieNoteForm, SearchForm, TagForm
+from main_app.forms import MovieNoteForm, TagForm
 from main_app.models import Movie, Tag
 from main_app.scraper import get_all_movies, get_new_movies
 
@@ -23,33 +21,28 @@ class MainView(View):
         if user.is_anonymous:
             return render(request, 'main_app/base.html')
         else:
-            form = SearchForm()
-            movies = Movie.objects.filter(user=user)
+            search = request.GET.get('search')
+            if search:
+                if search.startswith('#'):
+                    search = '%23' + search[1:]
+                    try:
+                        tag = Tag.objects.get(
+                            user=user, name__icontains='#' + search[3:])
+                        movies = Movie.objects.filter(user=user, tags=tag)
+                    except:
+                        movies = []
+                        status = 'Nie masz takiego tagu' + search
+                else:
+                    movies = Movie.objects.filter(
+                        user=user, title__icontains=search)
+                    if len(movies) == 0:
+                        status = 'Nie masz takiego filmu'
+            else:
+                movies = Movie.objects.filter(user=user)
             paginator = Paginator(movies, 10)
             page_number = request.GET.get('page')
-            page_object = paginator.get_page(page_number)
-            return render(request, 'main_app/base.html', {'page_object': page_object, 'form': form, 'status': status})
-
-    def post(self, request):
-        user = request.user
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            status = 'Wyniki wyszukiwania'
-            name = form.cleaned_data['name']
-            if name.startswith('#'):
-                try:
-                    tag = Tag.objects.get(user=user, name__icontains=name)
-                    movies = Movie.objects.filter(user=user, tags=tag)
-                except:
-                    movies = []
-                    status = 'Nie masz takiego tagu'
-            else:
-                movies = Movie.objects.filter(user=user, title__icontains=name)
-            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
-        else:
-            status = 'Niepoprawne wyszukiwanie'
-            movies = []
-            return render(request, 'main_app/base.html', {'movies': movies, 'form': form, 'status': status})
+            page = paginator.get_page(page_number)
+            return render(request, 'main_app/base.html', {'page': page, 'search': search, 'status': status})
 
 
 class SyncView(LoginRequiredMixin, View):
