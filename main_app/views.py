@@ -31,7 +31,7 @@ class MainView(View):
                         movies = Movie.objects.filter(user=user, tags=tag)
                     except:
                         movies = []
-                        status = 'Nie masz takiego tagu' + search
+                        status = 'Nie masz takiego tagu'
                 else:
                     movies = Movie.objects.filter(
                         user=user, title__icontains=search)
@@ -39,10 +39,13 @@ class MainView(View):
                         status = 'Nie masz takiego filmu'
             else:
                 movies = Movie.objects.filter(user=user)
+            order_by = request.GET.get('order_by', 'pk')
+            if order_by and len(movies) is not 0:
+                movies = movies.order_by(order_by)
             paginator = Paginator(movies, 10)
             page_number = request.GET.get('page')
             page = paginator.get_page(page_number)
-            return render(request, 'main_app/base.html', {'page': page, 'search': search, 'status': status})
+            return render(request, 'main_app/base.html', {'page': page, 'search': search, 'order_by': order_by, 'status': status})
 
 
 class SyncView(LoginRequiredMixin, View):

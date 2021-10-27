@@ -60,8 +60,15 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Film</th>
-        <th scope="col">Ocena</th>
+        {% if search %}
+        <th scope="col"><a href="?search={{ search }}&order_by=title">Film {% if order_by == 'title' %} &darr;
+            {% endif %}</a></th>
+        <th scope="col"><a href="?search={{ search }}&order_by=rating">Ocena {% if order_by == 'rating' %} &darr;
+            {% endif %}</a></th>
+        {% else %}
+        <th scope="col"><a href="?order_by=title">Film {% if order_by == 'title' %} &darr; {% endif %}</a></th>
+        <th scope="col"><a href="?order_by=rating">Ocena {% if order_by == 'rating' %} &darr; {% endif %}</a></th>
+        {% endif %}
         <th scope="col">Tagi</th>
       </tr>
     </thead>
@@ -81,9 +88,10 @@
     <span class="step-links center">
       {% if page.has_previous %}
       {% if search %}
-      <a class="btn btn-outline-warning" href="?page={{ page.previous_page_number }}&search={{ search }}">&larr;</a>
+      <a class="btn btn-outline-warning"
+        href="?page={{ page.previous_page_number }}&search={{ search }}&order_by={{ order_by }}">&larr;</a>
       {% else %}
-      <a class="btn btn-outline-warning" href="?page={{ page.previous_page_number }}">&larr;</a>
+      <a class="btn btn-outline-warning" href="?page={{ page.previous_page_number }}&order_by={{ order_by }}">&larr;</a>
       {% endif %}
       {% endif %}
 
@@ -93,9 +101,10 @@
 
       {% if page.has_next %}
       {% if search %}
-      <a class="btn btn-outline-warning" href="?page={{ page.next_page_number }}&search={{ search }}">&rarr;</a>
+      <a class="btn btn-outline-warning"
+        href="?page={{ page.next_page_number }}&search={{ search }}&order_by={{ order_by }}">&rarr;</a>
       {% else %}
-      <a class="btn btn-outline-warning" href="?page={{ page.next_page_number }}">&rarr;</a>
+      <a class="btn btn-outline-warning" href="?page={{ page.next_page_number }}&order_by={{ order_by }}">&rarr;</a>
       {% endif %}
       {% endif %}
     </span>
